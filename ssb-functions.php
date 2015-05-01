@@ -15,8 +15,17 @@ function ssb_ajax_form()
 			{
 				if($ssb_site == $icon)
 					{
-						$ssb_post_sites[$icon] = (int)$ssb_post_sites[$icon];
-						$ssb_post_sites[$icon] = $ssb_post_sites[$icon]+1;
+						//Yiqi Code start
+						if($icon == "fb"){
+							$url = 'https://api.facebook.com/method/fql.query?query=select total_count,share_count from link_stat where url=' . get_permalink( $post_id ) . '&format=json';
+							$content = file_get_contents($url);
+							$json = json_decode($content, true);
+							$ssb_post_sites[$icon] = $json->{'total_count'} + 1;							
+						}
+						else{						
+							$ssb_post_sites[$icon] = (int)$ssb_post_sites[$icon];
+							$ssb_post_sites[$icon] = $ssb_post_sites[$icon]+1;
+						}//Yiqi Code end
 					}
 				else
 					{
