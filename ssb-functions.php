@@ -17,10 +17,10 @@ function ssb_ajax_form()
 					{
 						//Yiqi Code start
 						if($icon == "fb"){
-							$url = 'https://api.facebook.com/method/fql.query?query=select total_count,share_count from link_stat where url=' . get_permalink( $post_id ) . '&format=json';
+							$url = "http://graph.facebook.com/?id=" . get_permalink( $post_id );
 							$content = file_get_contents($url);
 							$json = json_decode($content, true);
-							$ssb_post_sites[$icon] = $json->{'total_count'} + 1;							
+							$ssb_post_sites[$icon] = $json['shares'];							
 						}
 						else{						
 							$ssb_post_sites[$icon] = (int)$ssb_post_sites[$icon];
