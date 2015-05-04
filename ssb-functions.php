@@ -20,7 +20,7 @@ function ssb_ajax_form()
 							$url = "http://graph.facebook.com/?id=" . get_permalink( $post_id );
 							$content = file_get_contents($url);
 							$json = json_decode($content, true);
-							$ssb_post_sites[$icon] = $json['shares'];							
+							$ssb_post_sites[$icon] = $json['shares'] + 1;							
 						}
 						else{						
 							$ssb_post_sites[$icon] = (int)$ssb_post_sites[$icon];
