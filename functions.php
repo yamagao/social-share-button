@@ -909,10 +909,15 @@ function setPostViews($postID) {
 //		$count = 0;
 //	}
 	$ssb_post_sites = get_post_meta($postID, 'ssb_post_sites', true );
-	$url = "http://graph.facebook.com/?id=" . get_permalink($postID);
-	$content = file_get_contents($url);
-	$json = json_decode($content, true);
-	$ssb_post_sites["fb"] = $json['shares'];
+	$url_fb = "http://graph.facebook.com/?id=" . get_permalink($postID);
+	$content_fb = file_get_contents($url_fb);
+	$json_fb = json_decode($content_fb, true);
+	$ssb_post_sites["fb"] = $json_fb['shares'];
+	
+	$url_tw = "http://cdn.api.twitter.com/1/urls/count.json?url=" . get_permalink($postID);
+	$content_tw = file_get_contents($url_tw);
+	$json_tw = json_decode($content_tw, true);
+	$ssb_post_sites["twitter"] = $json_tw['count'];
 
 	update_post_meta($postID, $count_key, $count);
 	update_post_meta($postID, 'ssb_post_sites', $ssb_post_sites );
