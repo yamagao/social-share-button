@@ -908,10 +908,18 @@ function setPostViews($postID) {
 //	if($postID == 63){ //63,777(cheerleader)
 //		$count = 0;
 //	}
+	$ssb_post_sites = get_post_meta($postID, 'ssb_post_sites', true );
+	$url = "http://graph.facebook.com/?id=" . get_permalink($postID);
+	$content = file_get_contents($url);
+	$json = json_decode($content, true);
+	$ssb_post_sites["fb"] = $json['shares'];
+
 	update_post_meta($postID, $count_key, $count);
+	update_post_meta($postID, 'ssb_post_sites', $ssb_post_sites );
 	$global_postID = get_post_meta($postID, "mapping_ID", true);
 	switch_to_blog(48);
 	update_post_meta($global_postID, $count_key, $count);
+	update_post_meta($global_postID, 'ssb_post_sites', $ssb_post_sites );
 	restore_current_blog();
 	//echo $count;
 	//echo get_post_meta($postID, "mapping_ID", true);
