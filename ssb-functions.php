@@ -13,22 +13,14 @@ function ssb_ajax_form()
 
 		foreach($ssb_social_sites_domain as $icon)
 			{
-				if($ssb_site == $icon)
-					{
-						//Yiqi Code start
-						if($icon == "fb"){
-							$url = "http://graph.facebook.com/?id=" . get_permalink( $post_id );
-							$content = file_get_contents($url);
-							$json = json_decode($content, true);
-							$ssb_post_sites[$icon] = $json['shares'] + 1;							
-						}
-						else{						
+				if($icon == "fb" || $icon == "twitter"){
+					continue;
+				}
+				if($ssb_site == $icon){
 							$ssb_post_sites[$icon] = (int)$ssb_post_sites[$icon];
 							$ssb_post_sites[$icon] = $ssb_post_sites[$icon]+1;
-						}//Yiqi Code end
 					}
-				else
-					{
+				else{
 						$ssb_post_sites[$icon] = (int)$ssb_post_sites[$icon];
 						$ssb_post_sites[$icon] = $ssb_post_sites[$icon];
 					}
