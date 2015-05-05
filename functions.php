@@ -917,7 +917,18 @@ function setPostViews($postID) {
 	$url_tw = "http://cdn.api.twitter.com/1/urls/count.json?url=" . get_permalink($postID);
 	$content_tw = file_get_contents($url_tw);
 	$json_tw = json_decode($content_tw, true);
-	$ssb_post_sites["twitter"] = $json_tw['count'];
+	$ssb_post_sites["twitter"] = $json_tw['count'];	
+
+	$curl = curl_init();
+	curl_setopt($curl, CURLOPT_URL, "https://clients6.google.com/rpc");
+	curl_setopt($curl, CURLOPT_POST, 1);
+	curl_setopt($curl, CURLOPT_POSTFIELDS, '[{"method":"pos.plusones.get","id":"p","params":{"nolog":true,"id":"' . "http://blogs.ifas.ufl.edu/global/2015/03/23/spring-vegetable-garden/" . '","source":"widget","userId":"@viewer","groupId":"@self"},"jsonrpc":"2.0","key":"p","apiVersion":"v1"}]');
+	curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+	curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-type: application/json'));
+	$curl_results = curl_exec ($curl);
+	curl_close ($curl);
+	$json = json_decode($curl_results, true);
+	$ssb_post_sites["gplus"] = intval( $json[0]['result']['metadata']['globalCounts']['count'] );
 
 	update_post_meta($postID, $count_key, $count);
 	update_post_meta($postID, 'ssb_post_sites', $ssb_post_sites );
