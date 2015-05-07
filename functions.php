@@ -918,7 +918,7 @@ function setPostViews($postID) {
 	$content_tw = file_get_contents($url_tw);
 	$json_tw = json_decode($content_tw, true);
 	$ssb_post_sites["twitter"] = $json_tw['count'];	
-/*
+/* 	//curl_init() not working in WP
 	$curl = curl_init();
 	curl_setopt($curl, CURLOPT_URL, "https://clients6.google.com/rpc");
 	curl_setopt($curl, CURLOPT_POST, 1);
@@ -926,11 +926,8 @@ function setPostViews($postID) {
 	curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 	curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-type: application/json'));
 	$curl_results = curl_exec ($curl);
-	//echo $curl_results;
 	curl_close ($curl);
 	$json = json_decode($curl_results, true);
-	//echo $json;
-	//echo intval( $json[0]['result']['metadata']['globalCounts']['count'] );
 	$ssb_post_sites["gplus"] = intval( $json[0]['result']['metadata']['globalCounts']['count'] );
 */
 	$json_string = wp_remote_request('https://clients6.google.com/rpc',
